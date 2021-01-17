@@ -4,7 +4,7 @@
 	"description": "@rbxts/eventemitter, but with 100% more RemoteEvents",
 	"main": "out/init.lua",
 	"scripts": {
-		"prepublishOnly": "rm -r out && rbxtsc --type plugin",
+		"prepublishOnly": "rm -r out && rbxtsc --type package",
 		"test-setup": "rm -r ./out && rbxtsc --type game && rojo build -o Tests.rbxlx",
 		"test": "npm run test-setup && run-in-roblox --place ./Tests.rbxlx --script ./out/testRunner.server.lua"
 	},
@@ -35,6 +35,10 @@
 		"@rbxts/t": "^2.1.1"
 	},
 	"files": [
-		"out"
+		"out/client.*",
+		"out/server.*",
+		"out/types.*",
+		"out/index.d.ts",
+		"out/init.lua"
 	]
 }
