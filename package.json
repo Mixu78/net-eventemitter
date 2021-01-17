@@ -11,6 +11,11 @@
 	"keywords": [],
 	"author": "Mixu_78",
 	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Mixu78/net-eventemitter"
+	},
+	"homepage": "https://github.com/Mixu78/net-eventemitter/blob/master/README.md",
 	"publishConfig": {
 		"access": "public"
 	},

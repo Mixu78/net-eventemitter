@@ -95,7 +95,7 @@ export class ClientNetworkEmitter<Events extends EventsRecord<Events>> implement
 
 		this.connections = undefined!;
 		this.eventMap = undefined!;
-		//@ts-expect-error ts doesn't like "this" being reassigned :/
+		//@ts-expect-error ts doesn't like "this" being reassigned
 		this = undefined!;
 	}
 }

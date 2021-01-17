@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/@rbxts/net-eventemitter.png)](https://npmjs.org/package/@rbxts/net-eventemitter)
 
-Node.js-inspired event emitter class. Also typesafe.
+[@rbxts/eventemitter](https://npmjs.org/package/@rbxts/eventemitter) but with 100% more RemoteEvents
 
 ## Installation
 ```npm i @rbxts/net-eventemitter```
@@ -16,39 +16,48 @@ const GameEvents = {
 	roundEnd: [t.string] as const,
 }
 ```
-Then create an emitter like so:
+Then create an emitter on both sides like so:
 ```ts
-import { ServerNetworkEmitter as Emitter } from "@rbxts/net-eventemitter"
-const Emitter = new EventEmitter(GameEvents);
+import { ServerNetworkEmitter as Server } from "@rbxts/net-eventemitter";
+
+const Emitter = new Server(GameEvents);
+```
+```ts
+import { ClientNetworkEmitter as Client } from "@rbxts/net-eventemitter";
+
+const Emitter = new Client(GameEvents);
 ```
 where GameEvents is your event object.
 
-To handle any wrong type arguments sent by players pass in a function of type ```(eventName: string, player: Player, args: unknown[]) => void``` to the constructor.
+To handle wrong arguments sent by players pass in a function of type ```(eventName: string, player: Player, args: unknown[]) => void``` to the server emitter constructor, this is not supported on the client side.
+
+It is recommended to not have more than one server side emitter as this can lead to odd behaviour.
+Having multiple client side emitters is fine though.
 
 ## Example
 ```ts
-import { ServerNetworkEmitter as Emitter } from "@rbxts/eventemitter";
+import { ServerNetworkEmitter as Server } from "@rbxts/net-eventemitter";
 
-const Events = {
-	playerDead: [t.string]
+const events = {
+	playerDead: [t.string],
 }
 
 const invalidArgsHandler = (event, player, args) => {
-	print(`Player ${player.Name} sent invalid arguments to event ${event}!`)
+	print(`Player ${player.Name} sent invalid arguments to event ${event}!`);
 }
 
-const Emitter = new EventEmitter(Events, invalidArgsHandler);
+const emitter = new Server(events, invalidArgsHandler);
 
-Emitter.emit("playerDead", "Mixu_78");
+emitter.emit("playerDead", "Mixu_78");
 ```
 ```ts
-import { ClientNetworkEmitter as Emitter } from "@rbxts/eventemitter";
+import { ClientNetworkEmitter as Client } from "@rbxts/net-eventemitter";
 
-const Events = {
-	playerDead: [t.string]
+const events = {
+	playerDead: [t.string],
 }
 
-const Emitter = new EventEmitter(Events);
+const emitter = new Client(events);
 
-Emitter.on("playerDead", (player) => print(`${player} died!`))
+emitter.on("playerDead", (player) => print(`${player} died!`));
 ```
